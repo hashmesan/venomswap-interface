@@ -7,7 +7,7 @@ import { PortisConnector } from '@web3-react/portis-connector'
 import { FortmaticConnector } from './Fortmatic'
 import { NetworkConnector } from './NetworkConnector'
 
-import { Blockchain, Currency } from '@venomswap/sdk'
+import { Blockchain, Currency, ChainId } from '@venomswap/sdk'
 
 import baseCurrencies from '../utils/baseCurrencies'
 import getBlockchain from '../utils/getBlockchain'
@@ -56,10 +56,17 @@ export const injected = new InjectedConnector({
 
 // mainnet only
 export const walletconnect = new WalletConnectConnector({
-  rpc: { 1: NETWORK_URL },
+  rpc: {
+    1: NETWORK_URL,
+    [ChainId.HARMONY_MAINNET]: 'https://api.s0.t.hmny.io/',
+    [ChainId.HARMONY_TESTNET]: 'https://api.s0.b.hmny.io'
+  },
   bridge: 'https://bridge.walletconnect.org',
   qrcode: true,
-  pollingInterval: 15000
+  supportedChainIds: [
+    ChainId.HARMONY_MAINNET, // harmony
+    ChainId.HARMONY_TESTNET // harmony testnet
+  ]
 })
 
 // mainnet only
